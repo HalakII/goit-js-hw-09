@@ -52,9 +52,10 @@ function onBtnClickStart() {
       btn.disabled = true;
       Notiflix.Notify.success('Timer stopped!');
     }
+    console.log(addLeadingZero(seconds));
   }, 1000);
 }
-// console.log(deltaTime);
+
 // -------------------------------------------------------------------
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
