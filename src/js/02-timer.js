@@ -22,13 +22,13 @@ flatpickr(myInput, {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates[0].getTime() < new Date().getTime()) {
+    if (selectedDates[0] < new Date()) {
       Notiflix.Notify.failure('Please choose a date in the future');
       btn.disabled = true;
     } else {
-      selectedDate = selectedDates[0].getTime();
-      Notiflix.Notify.success('The clock`s ticking!');
+      selectedDate = selectedDates[0];
       btn.disabled = false;
+      Notiflix.Notify.success('The clock`s ticking!');
     }
     // console.log(selectedDate);
     // console.log(new Date().getTime());
@@ -39,14 +39,14 @@ function onBtnClickStart() {
   btn.disabled = true;
   myInput.disabled = true;
   intervalId = setInterval(() => {
-    const deltaTime = selectedDate - new Date().getTime();
-    const { days, hours, minutes, seconds } = convertMs(deltaTime);
+    const diffTime = selectedDate - new Date();
+    const { days, hours, minutes, seconds } = convertMs(diffTime);
     daysEl.textContent = addLeadingZero(days);
     hoursEl.textContent = addLeadingZero(hours);
     minutesEl.textContent = addLeadingZero(minutes);
     secondsEl.textContent = addLeadingZero(seconds);
 
-    if (deltaTime <= 1000) {
+    if (diffTime <= 1000) {
       clearInterval(intervalId);
       myInput.disabled = false;
       btn.disabled = true;
@@ -61,16 +61,16 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 // --------------------------------------------------------------------
-function convertMs(deltaTime) {
+function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = Math.floor(deltaTime / day);
-  const hours = Math.floor((deltaTime % day) / hour);
-  const minutes = Math.floor(((deltaTime % day) % hour) / minute);
-  const seconds = Math.floor((((deltaTime % day) % hour) % minute) / second);
+  const days = Math.floor(ms / day);
+  const hours = Math.floor((ms % day) / hour);
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
