@@ -18,7 +18,7 @@ function onPromiseCreate(event) {
   } else {
     for (let i = 1; i <= dataAmount; i += 1) {
       let position = i + 1;
-      const delaySum = (dataDelay + dataStep) * position;
+      let delaySum = dataDelay + dataStep * position;
 
       createPromise(i, delaySum)
         .then(({ position, delay }) => {
