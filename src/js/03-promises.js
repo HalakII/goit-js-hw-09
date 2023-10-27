@@ -16,11 +16,11 @@ function onPromiseCreate(event) {
   if (dataDelay < 0 || dataStep < 0 || dataAmount < 0) {
     Notiflix.Notify.warning(`❗ Please enter a positive number`);
   } else {
-    for (let i = 1; i <= dataAmount; i += 1) {
+    for (let i = 0; i <= dataAmount; i += 1) {
       let position = i + 1;
       let delaySum = dataDelay + dataStep * position;
 
-      createPromise(i, delaySum)
+      createPromise(position, delaySum)
         .then(({ position, delay }) => {
           Notiflix.Notify.success(
             `✅ Fulfilled promise ${position} in ${delay}ms`
@@ -33,16 +33,16 @@ function onPromiseCreate(event) {
         });
     }
   }
-  event.currentTarget.reset();
+  // event.currentTarget.reset();
 }
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
-        resolve(position, delay);
+        resolve({ position, delay });
       } else {
-        reject(position, delay);
+        reject({ position, delay });
       }
     }, delay);
   });
