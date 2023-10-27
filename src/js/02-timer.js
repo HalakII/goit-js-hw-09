@@ -28,7 +28,13 @@ flatpickr(myInput, {
     } else {
       selectedDate = selectedDates[0];
       btn.disabled = false;
-      Notiflix.Notify.success('The clock`s ticking!');
+
+      const diffTime = selectedDate - new Date();
+      const { days, hours, minutes, seconds } = convertMs(diffTime);
+      daysEl.textContent = addLeadingZero(days);
+      hoursEl.textContent = addLeadingZero(hours);
+      minutesEl.textContent = addLeadingZero(minutes);
+      secondsEl.textContent = addLeadingZero(seconds);
     }
     // console.log(selectedDate);
     // console.log(new Date().getTime());
@@ -38,6 +44,7 @@ flatpickr(myInput, {
 function onBtnClickStart() {
   btn.disabled = true;
   myInput.disabled = true;
+  Notiflix.Notify.success('The clock`s ticking!');
   intervalId = setInterval(() => {
     const diffTime = selectedDate - new Date();
     const { days, hours, minutes, seconds } = convertMs(diffTime);
@@ -46,13 +53,13 @@ function onBtnClickStart() {
     minutesEl.textContent = addLeadingZero(minutes);
     secondsEl.textContent = addLeadingZero(seconds);
 
-    if (diffTime <= 1000) {
+    if (diffTime < 1000) {
       clearInterval(intervalId);
       myInput.disabled = false;
       btn.disabled = true;
       Notiflix.Notify.success('Timer stopped!');
     }
-    console.log(addLeadingZero(seconds));
+    // console.log(addLeadingZero(seconds));
   }, 1000);
 }
 

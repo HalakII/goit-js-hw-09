@@ -16,11 +16,10 @@ function onPromiseCreate(event) {
   if (dataDelay < 0 || dataStep < 0 || dataAmount < 0) {
     Notiflix.Notify.warning(`❗ Please enter a positive number`);
   } else {
-    for (let i = 0; i <= dataAmount; i += 1) {
-      let position = i + 1;
-      let delaySum = dataDelay + dataStep * position;
+    for (let i = 1; i <= dataAmount; i += 1) {
+      let delaySum = dataDelay + dataStep * (i - 1);
 
-      createPromise(position, delaySum)
+      createPromise(i, delaySum)
         .then(({ position, delay }) => {
           Notiflix.Notify.success(
             `✅ Fulfilled promise ${position} in ${delay}ms`
